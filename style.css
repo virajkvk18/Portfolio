@@ -30,7 +30,7 @@ nav {
 .nav-links a {
   margin-left: 22px;
   text-decoration: none;
-  color: #111827;
+  color: #090d16;
   font-weight: 500;
   position: relative;
 }
@@ -97,7 +97,7 @@ nav {
 }
 
 .project-card {
-  background: #1f2933;
+  background: #1b88f5;
   padding: 25px;
   border-radius: 12px;
   transition: transform 0.3s ease;
@@ -141,16 +141,16 @@ footer {
 .btn.primary {
   background: linear-gradient(135deg, #6366f1, #4f46e5);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(79,70,229,0.3);
+  box-shadow: 0 8px 20px rgba(1, 1, 5, 0.3);
 }
 
 .btn.primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(79,70,229,0.45);
+  box-shadow: 0 12px 30px rgba(7, 7, 12, 0.45);
 }
 
 .btn.secondary {
-  border: 2px solid #6366f1;
+  border: 2px solid #000000;
   color: #6366f1;
   margin-left: 15px;
 }
