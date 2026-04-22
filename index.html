@@ -1220,28 +1220,210 @@
     }
 
     /* ═══════════════════════════════════════════════════════
-       RESPONSIVE
+       RESPONSIVE — TABLET (≤1024px)
     ═══════════════════════════════════════════════════════ */
     @media (max-width: 1024px) {
       section { padding: 5rem 6% 4rem; }
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
+
+      /* Hero: stack vertically, keep visual but shrink it */
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2.5rem;
+      }
+      .hero-eyebrow { justify-content: center; }
+      .hero-desc { margin: 0 auto 2.5rem; }
+      .hero-buttons { justify-content: center; }
+      .hero-stats { justify-content: center; }
+
+      /* Show avatar but smaller */
+      .hero-visual { display: flex; justify-content: center; }
+      .hero-avatar-wrap { width: 200px; height: 200px; }
+      .avatar-hexagon { width: 186px; height: 186px; }
+      .orbit-ring.r1 { width: 230px; height: 230px; }
+      .orbit-ring.r2 { width: 280px; height: 280px; }
+      .hero-badge.b1 { top: 8px; right: -10px; font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+      .hero-badge.b2 { bottom: 10px; left: -10px; font-size: 0.6rem; padding: 0.3rem 0.6rem; }
+
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     }
 
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE — MOBILE (≤768px)
+    ═══════════════════════════════════════════════════════ */
     @media (max-width: 768px) {
+      /* Nav */
       .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      section { padding: 4rem 5% 3rem; }
-      .hero-stats { gap: 1.5rem; }
+      .hamburger { display: flex; cursor: pointer; }
+
+      /* Sections */
+      section { padding: 4.5rem 5% 3rem; }
+
+      /* Hero */
+      .hero-inner { padding-top: 0.5rem; }
+      .hero-name { font-size: clamp(2rem, 9vw, 3.2rem); letter-spacing: 1px; }
+      /* Fix text-stroke on small screens */
+      .hero-name .line2 {
+        -webkit-text-stroke: 1px var(--neon-cyan);
+        font-size: clamp(1.8rem, 8vw, 2.8rem);
+      }
+      .hero-roles { font-size: 0.88rem; }
+      .hero-desc { font-size: 0.95rem; max-width: 100%; }
+      .hero-stats {
+        gap: 0;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 360px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .stat-item { flex: 1; text-align: center; }
+      .stat-number { font-size: 1.4rem; }
+      .stat-label { font-size: 0.55rem; letter-spacing: 1px; }
+
+      /* Buttons full width on very small screens */
+      .hero-buttons { flex-direction: column; align-items: center; width: 100%; gap: 0.8rem; }
+      .btn-primary, .btn-outline {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+        padding: 0.85rem 1.5rem;
+      }
+
+      /* Avatar: smaller on mobile */
+      .hero-avatar-wrap { width: 160px; height: 160px; }
+      .avatar-hexagon { width: 148px; height: 148px; }
+      .orbit-ring.r1 { width: 184px; height: 184px; }
+      .orbit-ring.r2 { width: 220px; height: 220px; }
+      .hero-badge { display: none; } /* hide floating badges on mobile to avoid overflow */
+
+      /* About info grid */
+      .about-info-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+      .info-value { font-size: 0.82rem; }
+
+      /* CP cards */
+      .cp-card { padding: 1rem 1.2rem; }
+      .cp-icon { font-size: 1.5rem; width: 36px; }
+      .cp-platform { font-size: 0.75rem; }
+      .cp-detail { font-size: 0.65rem; }
+      .cp-stat { font-size: 1.2rem; }
+
+      /* Projects grid */
       .projects-grid { grid-template-columns: 1fr; }
+      .project-card { padding: 1.4rem; }
+
+      /* Project filters: scrollable row */
+      .project-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+        gap: 0.5rem;
+        scrollbar-width: none;
+      }
+      .project-filters::-webkit-scrollbar { display: none; }
+      .filter-btn { flex-shrink: 0; }
+
+      /* Timeline */
+      .timeline-wrap::before { left: 16px; }
+      .timeline-item { gap: 1.2rem; padding-left: 0.5rem; }
+      .tl-dot { width: 32px; height: 32px; font-size: 0.85rem; flex-shrink: 0; }
+      .tl-content { padding: 1rem 1.2rem; }
+      .tl-header { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+      .tl-title { font-size: 0.82rem; }
+      .tl-date { font-size: 0.62rem; white-space: normal; }
+      .tl-org { font-size: 0.68rem; }
+      .tl-desc { font-size: 0.82rem; }
+
+      /* Achievements grid */
+      .ach-grid { grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+      .ach-card { padding: 1.2rem; }
+      .ach-icon { font-size: 1.5rem; }
+      .ach-title { font-size: 0.78rem; }
+      .ach-desc { font-size: 0.65rem; }
+
+      /* Contact */
+      .cinfo-value { font-size: 0.82rem; word-break: break-all; }
+      .social-links { gap: 0.5rem; }
+      .social-link { padding: 0.5rem 0.9rem; font-size: 0.65rem; }
+
+      /* Skills */
+      .skills-categories { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .skill-cat { padding: 1.2rem; }
+      .cat-title { font-size: 0.7rem; }
+      .skill-tag { font-size: 0.65rem; padding: 0.25rem 0.5rem; }
     }
 
+    /* ═══════════════════════════════════════════════════════
+       RESPONSIVE — SMALL MOBILE (≤480px)
+    ═══════════════════════════════════════════════════════ */
     @media (max-width: 480px) {
-      .hero-stats { flex-wrap: wrap; gap: 1.2rem; }
+      section { padding: 4rem 4.5% 2.5rem; }
+
+      /* Hero */
+      .hero-name { font-size: clamp(1.7rem, 10vw, 2.6rem); }
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        max-width: 100%;
+      }
+      .stat-item { text-align: center; }
+      .stat-number { font-size: 1.5rem; }
+
+      /* Skills: single column on tiny screens */
       .skills-categories { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; }
+
+      /* Achievements: single column */
+      .ach-grid { grid-template-columns: 1fr; }
+
+      /* About info: single column */
+      .about-info-grid { grid-template-columns: 1fr; }
+
+      /* Section title size */
+      .section-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+
+      /* Footer */
+      footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem 5%;
+        gap: 0.8rem;
+      }
+
+      /* Timeline */
+      .tl-header { flex-direction: column; gap: 0.15rem; }
+
+      /* Contact form */
+      .form-input, .form-textarea { font-size: 0.8rem; padding: 0.8rem; }
+      .form-submit { font-size: 0.75rem; padding: 0.9rem; }
+
+      /* Buttons: full-width stack */
+      .btn-primary, .btn-outline { max-width: 100%; font-size: 0.75rem; }
+
+      /* Glitch effect: reduce on mobile to avoid layout issues */
+      .glitch-wrap::before,
+      .glitch-wrap::after { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TOUCH DEVICES — disable custom cursor & hover effects
+    ═══════════════════════════════════════════════════════ */
+    @media (hover: none) and (pointer: coarse) {
+      body { cursor: auto; }
+      #cursor-dot, #cursor-ring { display: none; }
+
+      /* Make tap targets larger */
+      .nav-links a,
+      .plink,
+      .social-link,
+      .filter-btn { min-height: 44px; display: inline-flex; align-items: center; }
+
+      /* Disable translateY hover effects that feel wrong on touch */
+      .project-card:hover { transform: none; }
+      .ach-card:hover { transform: none; }
+      .btn-primary:hover, .btn-outline:hover { transform: none; }
     }
   </style>
 </head>
@@ -1978,54 +2160,62 @@
      JAVASCRIPT
 ═══════════════════════════════════════════════════════ -->
 <script>
-/* ── CURSOR ── */
+/* ── CURSOR (desktop only) ── */
 const dot  = document.getElementById('cursor-dot');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
-document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-function animCursor() {
-  dot.style.left  = mx + 'px';
-  dot.style.top   = my + 'px';
-  rx += (mx - rx) * 0.14;
-  ry += (my - ry) * 0.14;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
-  requestAnimationFrame(animCursor);
+if (!isTouchDevice) {
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+  function animCursor() {
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    rx += (mx - rx) * 0.14;
+    ry += (my - ry) * 0.14;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
 }
-animCursor();
 
 /* ── MATRIX RAIN ── */
 (function() {
   const canvas = document.getElementById('matrix-canvas');
   const ctx    = canvas.getContext('2d');
   const chars  = 'アイウエオカキクケコサシスセソタチツテトナニヌネノABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>{}[]|/\\;:@#$%^&*';
+  const isMobile = window.innerWidth <= 768;
   let cols, drops;
 
   function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
-    cols  = Math.floor(canvas.width / 16);
+    const colSize = isMobile ? 24 : 16;
+    cols  = Math.floor(canvas.width / colSize);
     drops = Array(cols).fill(1);
   }
   resize();
   window.addEventListener('resize', resize);
 
+  const interval = isMobile ? 80 : 50; // slower on mobile
   setInterval(() => {
     ctx.fillStyle = 'rgba(2,4,9,0.05)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#00ff88';
-    ctx.font = '13px monospace';
+    const colSize = isMobile ? 24 : 16;
+    ctx.font = (isMobile ? '11px' : '13px') + ' monospace';
     drops.forEach((y, i) => {
       const ch = chars[Math.floor(Math.random() * chars.length)];
-      ctx.fillText(ch, i * 16, y * 16);
-      if (y * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      ctx.fillText(ch, i * colSize, y * colSize);
+      if (y * colSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
       drops[i]++;
     });
-  }, 50);
+  }, interval);
 })();
 
 /* ── NAVBAR SCROLL ── */
