@@ -31,7 +31,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 // Reveal content as it enters the viewport.
-document.querySelectorAll(".section-intro, .story-card, .work-card, .capability-grid article, .journey-list article, .capability-statement, .contact > *").forEach((element) => element.classList.add("reveal"));
+document.querySelectorAll(".section-intro, .about-snapshot, .story-card, .work-card, .capability-grid article, .journey-list article, .capability-statement, .contact > *").forEach((element) => element.classList.add("reveal"));
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
