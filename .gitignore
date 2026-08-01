@@ -1,0 +1,8 @@
+# Private source documents and local working files
+*.pdf
+tmp/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
