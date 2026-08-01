@@ -6,6 +6,7 @@ const railLinks = [...document.querySelectorAll(".rail-nav a")];
 const sections = [...document.querySelectorAll("main section[id]")];
 const enquiryForm = document.querySelector("#enquiry-form");
 const formStatus = document.querySelector("#form-status");
+const scrollProgress = document.querySelector(".scroll-progress");
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
@@ -52,8 +53,18 @@ function updateActiveSection() {
   railLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${current}`));
 }
 
-window.addEventListener("scroll", updateActiveSection, { passive: true });
+function updateScrollProgress() {
+  const available = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = available > 0 ? Math.min(window.scrollY / available, 1) : 0;
+  scrollProgress.style.transform = `scaleX(${progress})`;
+}
+
+window.addEventListener("scroll", () => {
+  updateActiveSection();
+  updateScrollProgress();
+}, { passive: true });
 updateActiveSection();
+updateScrollProgress();
 
 // Horizontal project deck: mouse drag, keyboard arrows, and native touch scroll.
 document.querySelectorAll("[data-drag-scroll]").forEach((deck) => {
@@ -106,12 +117,20 @@ if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
 
   const heroName = document.querySelector(".hero-name");
   const portrait = document.querySelector(".hero-portrait");
-  document.querySelector(".hero").addEventListener("pointermove", (event) => {
+  const hero = document.querySelector(".hero");
+  hero.addEventListener("pointermove", (event) => {
     const x = event.clientX / window.innerWidth - 0.5;
     const y = event.clientY / window.innerHeight - 0.5;
-    heroName.style.transform = `translate(${x * -10}px, ${y * -5}px) scaleX(1.01)`;
-    portrait.style.marginLeft = `${x * 7}px`;
-    portrait.style.marginBottom = `${y * -4}px`;
+    heroName.style.setProperty("--name-shift-x", `${x * -12}px`);
+    heroName.style.setProperty("--name-shift-y", `${y * -6}px`);
+    portrait.style.setProperty("--portrait-shift-x", `${x * 9}px`);
+    portrait.style.setProperty("--portrait-shift-y", `${y * -5}px`);
+  });
+  hero.addEventListener("pointerleave", () => {
+    heroName.style.setProperty("--name-shift-x", "0px");
+    heroName.style.setProperty("--name-shift-y", "0px");
+    portrait.style.setProperty("--portrait-shift-x", "0px");
+    portrait.style.setProperty("--portrait-shift-y", "0px");
   });
 }
 
