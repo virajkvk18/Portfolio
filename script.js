@@ -12,8 +12,8 @@ document.querySelector("#year").textContent = new Date().getFullYear();
 
 // Short editorial entrance sequence.
 if (!reducedMotion) {
-  window.addEventListener("load", () => window.setTimeout(() => loader.classList.add("done"), 1250), { once: true });
-  window.setTimeout(() => loader.classList.add("done"), 2400);
+  window.addEventListener("load", () => window.setTimeout(() => loader.classList.add("done"), 720), { once: true });
+  window.setTimeout(() => loader.classList.add("done"), 1500);
 }
 
 // Mobile navigation.
