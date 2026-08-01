@@ -102,19 +102,8 @@ document.querySelectorAll("[data-drag-scroll]").forEach((deck) => {
   });
 });
 
-// Cursor treatment and restrained hero depth on desktop pointers.
-const cursor = document.querySelector(".cursor-orb");
+// Restrained hero depth on desktop pointers.
 if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
-  window.addEventListener("pointermove", (event) => {
-    cursor.style.left = `${event.clientX}px`;
-    cursor.style.top = `${event.clientY}px`;
-  }, { passive: true });
-
-  document.querySelectorAll("a, button, .work-card, .story-card").forEach((element) => {
-    element.addEventListener("pointerenter", () => cursor.classList.add("hovering"));
-    element.addEventListener("pointerleave", () => cursor.classList.remove("hovering"));
-  });
-
   const heroName = document.querySelector(".hero-name");
   const portrait = document.querySelector(".hero-portrait");
   const hero = document.querySelector(".hero");
