@@ -4,6 +4,8 @@ const menuButton = document.querySelector(".mobile-menu-button");
 const mobileMenu = document.querySelector(".mobile-menu");
 const railLinks = [...document.querySelectorAll(".rail-nav a")];
 const sections = [...document.querySelectorAll("main section[id]")];
+const enquiryForm = document.querySelector("#enquiry-form");
+const formStatus = document.querySelector("#form-status");
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
@@ -116,4 +118,34 @@ if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
 // Gentle card stagger for grouped content.
 document.querySelectorAll(".about-grid, .capability-grid, .journey-list").forEach((group) => {
   [...group.children].forEach((child, index) => { child.style.transitionDelay = `${Math.min(index * 65, 220)}ms`; });
+});
+
+// Submit enquiries to Netlify Forms without leaving the portfolio.
+enquiryForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const submitButton = enquiryForm.querySelector('button[type="submit"]');
+  const originalLabel = submitButton.innerHTML;
+  submitButton.disabled = true;
+  submitButton.innerHTML = "Sending enquiry… <span>↗</span>";
+  formStatus.textContent = "";
+  formStatus.className = "form-status";
+
+  try {
+    const formData = new FormData(enquiryForm);
+    const response = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString()
+    });
+    if (!response.ok) throw new Error("Submission failed");
+    enquiryForm.reset();
+    formStatus.textContent = "Thanks — your enquiry has been sent. I'll get back to you soon.";
+    formStatus.classList.add("success");
+  } catch (error) {
+    formStatus.innerHTML = 'The form could not send right now. Please use <a href="mailto:virajvishwakarma672@gmail.com">email</a> or WhatsApp instead.';
+    formStatus.classList.add("error");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.innerHTML = originalLabel;
+  }
 });
