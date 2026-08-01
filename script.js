@@ -1,206 +1,119 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const header = document.querySelector("#site-header");
-const menuButton = document.querySelector(".menu-button");
-const mobileNav = document.querySelector("#mobile-nav");
+const loader = document.querySelector(".intro-loader");
+const menuButton = document.querySelector(".mobile-menu-button");
+const mobileMenu = document.querySelector(".mobile-menu");
+const railLinks = [...document.querySelectorAll(".rail-nav a")];
+const sections = [...document.querySelectorAll("main section[id]")];
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
-// Compact navigation and section state.
-const sections = [...document.querySelectorAll("main section[id]")];
-const navLinks = [...document.querySelectorAll(".desktop-nav a")];
-
-function updateNavigation() {
-  header.classList.toggle("scrolled", window.scrollY > 24);
-  const marker = window.scrollY + window.innerHeight * 0.35;
-  let current = "";
-  sections.forEach((section) => {
-    if (marker >= section.offsetTop) current = section.id;
-  });
-  navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${current}`));
+// Short editorial entrance sequence.
+if (!reducedMotion) {
+  window.addEventListener("load", () => window.setTimeout(() => loader.classList.add("done"), 1250), { once: true });
+  window.setTimeout(() => loader.classList.add("done"), 2400);
 }
 
-window.addEventListener("scroll", updateNavigation, { passive: true });
-updateNavigation();
-
-// Accessible mobile navigation.
+// Mobile navigation.
 function setMenu(open) {
   menuButton.setAttribute("aria-expanded", String(open));
   menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  mobileNav.hidden = !open;
+  mobileMenu.hidden = !open;
   document.body.classList.toggle("menu-open", open);
 }
 
 menuButton.addEventListener("click", () => setMenu(menuButton.getAttribute("aria-expanded") !== "true"));
-mobileNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
+mobileMenu.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenu(false)));
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") setMenu(false);
 });
 
-// Scroll entrances.
+// Reveal content as it enters the viewport.
+document.querySelectorAll(".section-intro, .story-card, .work-card, .capability-grid article, .journey-list article, .capability-statement, .contact > *").forEach((element) => element.classList.add("reveal"));
+
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
     entry.target.classList.add("visible");
     observer.unobserve(entry.target);
   });
-}, { threshold: 0.12, rootMargin: "0px 0px -40px" });
+}, { threshold: 0.12, rootMargin: "0px 0px -35px" });
 
 document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
 
-// Rotating hero verb.
-const wordElement = document.querySelector(".gradient-word");
-const words = wordElement.dataset.words.split(",");
-let wordIndex = 0;
-if (!reducedMotion) {
-  setInterval(() => {
-    wordElement.classList.add("switching");
-    window.setTimeout(() => {
-      wordIndex = (wordIndex + 1) % words.length;
-      wordElement.textContent = words[wordIndex];
-      wordElement.classList.remove("switching");
-    }, 260);
-  }, 2500);
+// Keep the compact rail synchronized with the visible section.
+function updateActiveSection() {
+  const marker = window.scrollY + window.innerHeight * 0.42;
+  let current = sections[0]?.id || "about";
+  sections.forEach((section) => {
+    if (marker >= section.offsetTop) current = section.id;
+  });
+  railLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${current}`));
 }
 
-// Count résumé metrics when they enter the viewport.
-const counterObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    const counter = entry.target;
-    const target = Number(counter.dataset.target);
-    const suffix = counter.dataset.suffix || "";
-    if (reducedMotion) {
-      counter.textContent = `${target}${suffix}`;
-    } else {
-      const started = performance.now();
-      const duration = 1300;
-      function tick(now) {
-        const progress = Math.min((now - started) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        counter.textContent = `${Math.round(target * eased)}${suffix}`;
-        if (progress < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-    observer.unobserve(counter);
+window.addEventListener("scroll", updateActiveSection, { passive: true });
+updateActiveSection();
+
+// Horizontal project deck: mouse drag, keyboard arrows, and native touch scroll.
+document.querySelectorAll("[data-drag-scroll]").forEach((deck) => {
+  let dragging = false;
+  let startX = 0;
+  let startScroll = 0;
+
+  deck.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("a")) return;
+    dragging = true;
+    startX = event.clientX;
+    startScroll = deck.scrollLeft;
+    deck.classList.add("dragging");
+    deck.setPointerCapture(event.pointerId);
   });
-}, { threshold: 0.7 });
 
-document.querySelectorAll(".counter").forEach((counter) => counterObserver.observe(counter));
-
-// Interactive skill terminal.
-const skillTabs = [...document.querySelectorAll(".skill-tab")];
-const skillPanels = [...document.querySelectorAll(".skill-panel")];
-
-function selectSkill(tab) {
-  const id = tab.dataset.skill;
-  skillTabs.forEach((item) => {
-    const selected = item === tab;
-    item.classList.toggle("active", selected);
-    item.setAttribute("aria-selected", String(selected));
+  deck.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    deck.scrollLeft = startScroll - (event.clientX - startX) * 1.25;
   });
-  skillPanels.forEach((panel) => {
-    const selected = panel.id === `skill-${id}`;
-    panel.hidden = !selected;
-    panel.classList.toggle("active", selected);
-  });
-}
 
-skillTabs.forEach((tab, index) => {
-  tab.addEventListener("click", () => selectSkill(tab));
-  tab.addEventListener("keydown", (event) => {
-    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+  function stopDragging(event) {
+    if (!dragging) return;
+    dragging = false;
+    deck.classList.remove("dragging");
+    if (event.pointerId !== undefined && deck.hasPointerCapture(event.pointerId)) deck.releasePointerCapture(event.pointerId);
+  }
+
+  deck.addEventListener("pointerup", stopDragging);
+  deck.addEventListener("pointercancel", stopDragging);
+  deck.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
-    const direction = ["ArrowRight", "ArrowDown"].includes(event.key) ? 1 : -1;
-    const next = skillTabs[(index + direction + skillTabs.length) % skillTabs.length];
-    selectSkill(next);
-    next.focus();
+    deck.scrollBy({ left: event.key === "ArrowRight" ? 330 : -330, behavior: reducedMotion ? "auto" : "smooth" });
   });
 });
 
-// Soft cursor light and magnetic actions for pointer devices.
-const cursorGlow = document.querySelector(".cursor-glow");
+// Cursor treatment and restrained hero depth on desktop pointers.
+const cursor = document.querySelector(".cursor-orb");
 if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
   window.addEventListener("pointermove", (event) => {
-    cursorGlow.style.left = `${event.clientX}px`;
-    cursorGlow.style.top = `${event.clientY}px`;
+    cursor.style.left = `${event.clientX}px`;
+    cursor.style.top = `${event.clientY}px`;
   }, { passive: true });
 
-  document.querySelectorAll(".magnetic").forEach((element) => {
-    element.addEventListener("pointermove", (event) => {
-      const bounds = element.getBoundingClientRect();
-      const x = (event.clientX - bounds.left - bounds.width / 2) * 0.14;
-      const y = (event.clientY - bounds.top - bounds.height / 2) * 0.14;
-      element.style.transform = `translate(${x}px, ${y}px)`;
-    });
-    element.addEventListener("pointerleave", () => { element.style.transform = ""; });
+  document.querySelectorAll("a, button, .work-card, .story-card").forEach((element) => {
+    element.addEventListener("pointerenter", () => cursor.classList.add("hovering"));
+    element.addEventListener("pointerleave", () => cursor.classList.remove("hovering"));
   });
 
-  document.querySelectorAll("[data-tilt]").forEach((card) => {
-    card.addEventListener("pointermove", (event) => {
-      const bounds = card.getBoundingClientRect();
-      const rx = ((event.clientY - bounds.top) / bounds.height - 0.5) * -4;
-      const ry = ((event.clientX - bounds.left) / bounds.width - 0.5) * 4;
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    });
-    card.addEventListener("pointerleave", () => { card.style.transform = ""; });
+  const heroName = document.querySelector(".hero-name");
+  const portrait = document.querySelector(".hero-portrait");
+  document.querySelector(".hero").addEventListener("pointermove", (event) => {
+    const x = event.clientX / window.innerWidth - 0.5;
+    const y = event.clientY / window.innerHeight - 0.5;
+    heroName.style.transform = `translate(${x * -10}px, ${y * -5}px) scaleX(1.01)`;
+    portrait.style.marginLeft = `${x * 7}px`;
+    portrait.style.marginBottom = `${y * -4}px`;
   });
 }
 
-// Lightweight constellation animation behind the hero.
-const canvas = document.querySelector("#particle-field");
-const context = canvas.getContext("2d");
-let particles = [];
-let animationFrame;
-
-function resizeCanvas() {
-  const ratio = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = window.innerWidth * ratio;
-  canvas.height = window.innerHeight * ratio;
-  canvas.style.width = `${window.innerWidth}px`;
-  canvas.style.height = `${window.innerHeight}px`;
-  context.setTransform(ratio, 0, 0, ratio, 0, 0);
-  const count = Math.min(65, Math.max(24, Math.floor(window.innerWidth / 24)));
-  particles = Array.from({ length: count }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
-    vx: (Math.random() - 0.5) * 0.16,
-    vy: (Math.random() - 0.5) * 0.16,
-    size: Math.random() * 1.4 + 0.4
-  }));
-}
-
-function drawParticles() {
-  context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  particles.forEach((point, index) => {
-    point.x += point.vx;
-    point.y += point.vy;
-    if (point.x < 0 || point.x > window.innerWidth) point.vx *= -1;
-    if (point.y < 0 || point.y > window.innerHeight) point.vy *= -1;
-    context.beginPath();
-    context.arc(point.x, point.y, point.size, 0, Math.PI * 2);
-    context.fillStyle = "rgba(184,255,61,.34)";
-    context.fill();
-
-    for (let next = index + 1; next < particles.length; next += 1) {
-      const other = particles[next];
-      const distance = Math.hypot(point.x - other.x, point.y - other.y);
-      if (distance < 115) {
-        context.beginPath();
-        context.moveTo(point.x, point.y);
-        context.lineTo(other.x, other.y);
-        context.strokeStyle = `rgba(92,225,230,${(1 - distance / 115) * 0.08})`;
-        context.stroke();
-      }
-    }
-  });
-  animationFrame = requestAnimationFrame(drawParticles);
-}
-
-resizeCanvas();
-if (!reducedMotion) drawParticles();
-window.addEventListener("resize", () => {
-  cancelAnimationFrame(animationFrame);
-  resizeCanvas();
-  if (!reducedMotion) drawParticles();
-}, { passive: true });
+// Gentle card stagger for grouped content.
+document.querySelectorAll(".about-grid, .capability-grid, .journey-list").forEach((group) => {
+  [...group.children].forEach((child, index) => { child.style.transitionDelay = `${Math.min(index * 65, 220)}ms`; });
+});
