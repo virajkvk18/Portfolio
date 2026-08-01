@@ -31,7 +31,7 @@ window.addEventListener("keydown", (event) => {
 });
 
 // Reveal content as it enters the viewport.
-document.querySelectorAll(".section-intro, .about-snapshot, .story-card, .work-card, .capability-grid article, .journey-list article, .capability-statement, .contact > *").forEach((element) => element.classList.add("reveal"));
+document.querySelectorAll(".section-intro, .about-snapshot, .story-card, .work-card, .capability-grid article, .achievement-board article, .journey-list article, .capability-statement, .contact > *").forEach((element) => element.classList.add("reveal"));
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {
@@ -124,7 +124,7 @@ if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
 }
 
 // Gentle card stagger for grouped content.
-document.querySelectorAll(".about-grid, .capability-grid, .journey-list").forEach((group) => {
+document.querySelectorAll(".about-grid, .capability-grid, .achievement-board, .journey-list").forEach((group) => {
   [...group.children].forEach((child, index) => { child.style.transitionDelay = `${Math.min(index * 65, 220)}ms`; });
 });
 
