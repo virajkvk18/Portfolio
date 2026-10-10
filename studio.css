@@ -1,4 +1,32 @@
 /* The studio extends the existing paper / cobalt / coral / lime identity. */
+.hero { background: radial-gradient(ellipse at 48% 20%, #f7f4eb 0%, transparent 60%), var(--paper); }
+.hero::before { opacity: .23; background-size: 96px 96px; mask-image: linear-gradient(to bottom, transparent, black 35%, transparent); }
+.hero::after { display: none; }
+.hero-atmosphere { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-blue-panel { position: absolute; width: 44%; height: 68%; left: 40%; top: 39%; border-radius: 28px; background: linear-gradient(145deg, #5368ff, #3848d7); transform: rotate(-13deg); box-shadow: 22px 22px 0 #5368ff18; }
+.hero-blue-panel::after { content: ''; position: absolute; inset: 20px; border: 1px solid #ffffff35; border-radius: 15px; }
+.hero-lime-panel { position: absolute; width: 41%; height: 18%; left: -7%; top: 72%; transform: rotate(-13deg); background: var(--acid); }
+.hero-registration { position: absolute; right: 7%; top: 39%; color: var(--blue); font: 400 90px/1 var(--display); animation: studio-spin 35s linear infinite; }
+.hero-edition { position: absolute; left: 3%; top: 41%; font-size: 9px; letter-spacing: .18em; color: var(--muted); writing-mode: vertical-rl; }
+.hero-portrait { width: min(76vw,1080px); height: 90%; bottom: 0; }
+.hero-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 8%; transform: none; animation: none; filter: drop-shadow(12px 18px 18px #11111125); }
+.hero-title-block { text-shadow: 0 2px 18px #0009; }
+.hero-summary { background: #e9e5d9e8; padding: 14px 16px; border-left: 2px solid var(--blue); border-radius: 0 8px 8px 0; }
+@media (max-width: 840px) {
+  .hero-portrait { width: 125vw; height: 81%; bottom: 0; }
+  .hero-portrait img { object-position: 50% 5%; }
+  .hero-blue-panel { width: 68%; height: 60%; left: 29%; top: 44%; border-radius: 20px; }
+  .hero-lime-panel { width: 60%; left: -20%; top: 69%; height: 16%; }
+  .hero-registration { font-size: 65px; top: 37%; right: 7%; }
+  .hero-edition { top: 38%; left: 5%; font-size: 8px; }
+}
+@media (max-width: 560px) {
+  .hero-portrait { width: 152vw; height: 77%; bottom: 0; }
+  .hero-portrait img { object-position: 50% top; }
+  .hero-blue-panel { top: 42%; left: 27%; width: 76%; }
+  .hero-title-block { bottom: 4%; }
+  .hero-registration { top: 35%; font-size: 48px; right: 7%; }
+}
 body { -webkit-user-select: auto; user-select: auto; }
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
 .section-dark :focus-visible, .section-ink :focus-visible, .design-studio :focus-visible { outline-color: var(--acid); }
