@@ -233,7 +233,7 @@ const designProjects = [
 
 // Initialize on DOM Ready
 document.addEventListener("DOMContentLoaded", () => {
-  initPaletteSwitcher();
+  initHeroSlideshow();
   initCategoryFilter();
   initModalLightbox();
   initDesignLab();
@@ -257,60 +257,139 @@ function showToast(message) {
   }, 3000);
 }
 
-// 1. Hero Palette Switcher
-function initPaletteSwitcher() {
-  const swatchButtons = document.querySelectorAll(".swatch-btn");
-  const poster = document.querySelector(".interactive-poster-preview");
-  const posterType = document.querySelector(".poster-big-type");
+// 1. Hero Auto-Cycling Work Showcase Slideshow
+function initHeroSlideshow() {
+  const container = document.querySelector(".hero-slideshow");
+  if (!container) return;
 
-  if (!swatchButtons.length || !poster) return;
+  const slides = container.querySelectorAll(".slideshow-img");
+  if (!slides.length) return;
 
-  const palettes = {
-    electric: {
-      bg: "#111214",
-      accent: "#c7ff4a",
-      orbit: "#4f64ff",
-      typeColor: "#f5f2e9"
-    },
-    citrus: {
-      bg: "#161b0c",
-      accent: "#4f64ff",
-      orbit: "#c7ff4a",
-      typeColor: "#f5f2e9"
-    },
-    coral: {
-      bg: "#1f100d",
-      accent: "#f5f2e9",
-      orbit: "#ff583b",
-      typeColor: "#ff7a63"
-    },
-    noir: {
-      bg: "#ded8c8",
-      accent: "#ff583b",
-      orbit: "#111111",
-      typeColor: "#111111"
-    }
-  };
+  const counter = document.querySelector(".slideshow-counter");
+  const progressBar = container.querySelector(".slideshow-progress-bar");
+  const dotsContainer = document.querySelector(".slideshow-dots");
+  const pauseBtn = document.querySelector(".slideshow-pause-btn");
 
-  swatchButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      swatchButtons.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+  let currentIndex = 0;
+  let isPlaying = true;
+  let timer = null;
+  const slideDuration = 2200; // ms (smooth 2.2s pacing)
 
-      const themeKey = btn.dataset.palette;
-      const theme = palettes[themeKey];
-      if (!theme) return;
-
-      poster.style.background = theme.bg;
-      if (posterType) {
-        posterType.style.color = theme.typeColor;
-        const emTag = posterType.querySelector("em");
-        if (emTag) emTag.style.color = theme.accent;
-      }
-      const orbitIcon = poster.querySelector(".poster-graphics-orbit span");
-      if (orbitIcon) orbitIcon.style.color = theme.orbit;
+  // Generate interactive dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = "";
+    slides.forEach((slide, idx) => {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = `slideshow-dot ${idx === 0 ? "active" : ""}`;
+      dot.setAttribute("aria-label", `Jump to slide ${idx + 1}`);
+      dot.addEventListener("click", (e) => {
+        e.stopPropagation();
+        goToSlide(idx);
+        restartTimer();
+      });
+      dotsContainer.appendChild(dot);
     });
+  }
+
+  const dots = dotsContainer ? dotsContainer.querySelectorAll(".slideshow-dot") : [];
+
+  function updateCounter() {
+    if (counter) {
+      const cur = String(currentIndex + 1).padStart(2, "0");
+      const tot = String(slides.length).padStart(2, "0");
+      counter.textContent = `${cur} / ${tot}`;
+    }
+  }
+
+  function startProgressBar() {
+    if (!progressBar) return;
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
+    void progressBar.offsetWidth; // Force layout recalculation
+    if (isPlaying) {
+      progressBar.style.transition = `width ${slideDuration}ms linear`;
+      progressBar.style.width = "100%";
+    }
+  }
+
+  function goToSlide(targetIndex) {
+    slides[currentIndex].classList.remove("active");
+    if (dots[currentIndex]) dots[currentIndex].classList.remove("active");
+
+    currentIndex = (targetIndex + slides.length) % slides.length;
+
+    slides[currentIndex].classList.add("active");
+    if (dots[currentIndex]) dots[currentIndex].classList.add("active");
+
+    updateCounter();
+    startProgressBar();
+  }
+
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function startTimer() {
+    stopTimer();
+    if (!isPlaying) return;
+    startProgressBar();
+    timer = setInterval(nextSlide, slideDuration);
+  }
+
+  function stopTimer() {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+    if (progressBar) {
+      const computedWidth = window.getComputedStyle(progressBar).width;
+      progressBar.style.transition = "none";
+      progressBar.style.width = computedWidth;
+    }
+  }
+
+  function restartTimer() {
+    stopTimer();
+    if (isPlaying) {
+      startTimer();
+    }
+  }
+
+  // Play / Pause Toggle Button
+  if (pauseBtn) {
+    pauseBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      isPlaying = !isPlaying;
+      pauseBtn.textContent = isPlaying ? "⏸" : "▶";
+      pauseBtn.setAttribute("aria-label", isPlaying ? "Pause slideshow" : "Play slideshow");
+      if (isPlaying) {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    });
+  }
+
+  // Hover pauses playback
+  container.addEventListener("mouseenter", () => {
+    if (isPlaying) stopTimer();
   });
+
+  // Mouse leave resumes playback
+  container.addEventListener("mouseleave", () => {
+    if (isPlaying) restartTimer();
+  });
+
+  // Clicking on image advances to next slide immediately
+  container.addEventListener("click", () => {
+    nextSlide();
+    if (isPlaying) restartTimer();
+  });
+
+  // Initial display setup
+  updateCounter();
+  startTimer();
 }
 
 // 2. Category Filter
