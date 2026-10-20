@@ -48,6 +48,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 86px;
   overflow-x: hidden;
   background-color: var(--ink);
   color: var(--paper);
@@ -715,12 +716,16 @@ body {
 /* ==========================================================================
    GROWTH SQUARE LIVE INSTAGRAM CALLOUT BANNER
    ========================================================================== */
+.ig-spotlight-section {
+  padding-bottom: 70px;
+}
+
 .growthsq-instagram-banner {
   background: linear-gradient(135deg, rgba(220, 39, 67, 0.12) 0%, rgba(13, 14, 18, 0.95) 60%), #141519;
   border: 1px solid rgba(220, 39, 67, 0.35);
   border-radius: var(--radius-lg);
-  padding: clamp(24px, 4vw, 40px);
-  margin-bottom: 40px;
+  padding: clamp(24px, 4vw, 36px);
+  margin-bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -807,25 +812,26 @@ body {
    FEATURED ROLES SECTION
    ========================================================================== */
 .experience-feature-section {
-  padding-bottom: 70px;
+  padding-bottom: 90px;
 }
 
 .experience-feature-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
-  margin-top: 24px;
+  gap: 30px;
+  margin-top: 32px;
 }
 
 .feature-role-card {
   background: var(--ink-card);
   border: 1px solid var(--ink-border);
   border-radius: var(--radius-lg);
-  padding: clamp(24px, 4vw, 36px);
+  padding: clamp(26px, 4vw, 38px);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -922,10 +928,11 @@ body {
 }
 
 .role-subtitle {
-  font-size: 14px;
+  font-size: 14.5px;
   color: var(--text-light-muted);
   line-height: 1.6;
   margin-bottom: 24px;
+  flex-grow: 1;
 }
 
 .role-stats-grid {
@@ -1122,12 +1129,12 @@ body {
    WORK GLIMPSE & PRODUCTION VAULT (LIVE WORK GALLERY)
    ========================================================================== */
 .work-glimpse-section {
-  padding-bottom: 100px;
+  padding-bottom: 90px;
 }
 
 .glimpse-gallery-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 28px;
   margin-top: 36px;
 }
@@ -1139,14 +1146,16 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  cursor: pointer;
 }
 
 .glimpse-card:hover {
   transform: translateY(-6px);
-  border-color: var(--ink-border-hover);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(199, 255, 74, 0.35);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 }
 
 .glimpse-img-wrap {
@@ -1154,27 +1163,22 @@ body {
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #090a0d;
+  background: radial-gradient(circle at 50% 50%, #16181f 0%, #0a0b0e 100%);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.glimpse-img-wrap.aspect-tall {
-  aspect-ratio: 4 / 5;
-}
-
 .glimpse-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background: #000;
-  padding: 8px;
+  object-fit: cover;
+  object-position: center top;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glimpse-card:hover .glimpse-img-wrap img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .glimpse-badge-pill {
@@ -1195,7 +1199,7 @@ body {
 }
 
 .glimpse-info {
-  padding: 22px 24px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -1207,23 +1211,24 @@ body {
   font-size: 11px;
   font-family: var(--mono-font);
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .glimpse-title {
   font-family: var(--display-font);
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--paper);
   letter-spacing: -0.02em;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  line-height: 1.25;
 }
 
 .glimpse-desc {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--text-light-muted);
-  line-height: 1.55;
-  margin-bottom: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
   flex-grow: 1;
 }
 
@@ -1236,6 +1241,7 @@ body {
   font-size: 11px;
   font-family: var(--mono-font);
   color: var(--text-muted);
+  margin-top: auto;
 }
 
 .glimpse-footer-bar strong {
@@ -1251,8 +1257,8 @@ body {
 
 .thumbnails-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 26px;
   margin-top: 36px;
 }
 
@@ -1264,19 +1270,21 @@ body {
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
+  height: 100%;
+  cursor: pointer;
 }
 
 .yt-thumb-card:hover {
   transform: translateY(-6px) scale(1.02);
-  border-color: rgba(255, 0, 51, 0.4);
-  box-shadow: 0 16px 40px rgba(255, 0, 51, 0.15);
+  border-color: rgba(255, 0, 51, 0.45);
+  box-shadow: 0 16px 40px rgba(255, 0, 51, 0.18);
 }
 
 .yt-thumb-wrapper {
   position: relative;
-  aspect-ratio: 16/9;
+  aspect-ratio: 16 / 9;
   width: 100%;
-  background: #111;
+  background: #0d0e12;
   overflow: hidden;
 }
 
@@ -1350,11 +1358,13 @@ body {
 }
 
 .thumb-details {
-  padding: 18px;
+  padding: 16px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid var(--ink-border);
+  background: #111317;
+  margin-top: auto;
 }
 
 .thumb-details strong {
@@ -1430,8 +1440,8 @@ body {
 
 .figma-crops-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 22px;
 }
 
 .figma-crop-card {
@@ -1442,17 +1452,19 @@ body {
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  cursor: pointer;
 }
 
 .figma-crop-card:hover {
   transform: translateY(-5px);
   border-color: #a259ff;
-  box-shadow: 0 16px 36px rgba(162, 89, 255, 0.22);
+  box-shadow: 0 16px 36px rgba(162, 89, 255, 0.25);
 }
 
 .figma-crop-img-wrap {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: #050608;
   position: relative;
@@ -1464,18 +1476,20 @@ body {
 .figma-crop-img-wrap img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 10px;
-  background: #000;
+  object-fit: cover;
+  object-position: center;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .figma-crop-card:hover .figma-crop-img-wrap img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .figma-crop-info {
-  padding: 14px 18px;
+  padding: 16px 18px;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: #0f1015;
 }
 
 .figma-crop-info strong {
@@ -1837,6 +1851,15 @@ body {
 /* ==========================================================================
    RESPONSIVE QUERIES
    ========================================================================== */
+/* ==========================================================================
+   RESPONSIVE QUERIES
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .status-pill {
+    display: none;
+  }
+}
+
 @media (max-width: 1024px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1845,6 +1868,11 @@ body {
 
   .experience-feature-grid {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .logo-grid-custom {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .lab-container-box {
@@ -1857,8 +1885,8 @@ body {
   }
 }
 
-@media (max-width: 840px) {
-  .nav-links, .status-pill {
+@media (max-width: 880px) {
+  .nav-links {
     display: none;
   }
 
@@ -1878,6 +1906,7 @@ body {
     padding: 30px 24px;
     flex-direction: column;
     gap: 20px;
+    overflow-y: auto;
   }
 
   .mobile-menu-drawer.open {
@@ -1887,15 +1916,11 @@ body {
   .mobile-menu-drawer a {
     color: var(--paper);
     text-decoration: none;
-    font-size: 22px;
+    font-size: 20px;
     font-family: var(--display-font);
     font-weight: 800;
     border-bottom: 1px solid var(--ink-border);
     padding-bottom: 12px;
-  }
-
-  .hero-badges-row {
-    grid-template-columns: 1fr;
   }
 
   .growthsq-instagram-banner {
@@ -1913,9 +1938,9 @@ body {
   }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 600px) {
   .hero-headline {
-    font-size: 2.6rem;
+    font-size: clamp(2.4rem, 8vw, 3.2rem);
   }
 
   .hero-cta-group {
@@ -1929,10 +1954,137 @@ body {
 
   .hero-slideshow {
     aspect-ratio: 1 / 1.15;
-    max-height: 420px;
+    max-height: 400px;
+  }
+
+  .logo-grid-custom {
+    grid-template-columns: 1fr;
+  }
+
+  .glimpse-gallery-grid,
+  .thumbnails-grid,
+  .figma-crops-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .lab-btn-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ==========================================================================
+   IMAGE LIGHTBOX MODAL
+   ========================================================================== */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.25s ease;
+}
+
+.lightbox-modal[hidden] {
+  display: none !important;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 5, 7, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1050px;
+  width: 100%;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  background: #111317;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lightbox-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.lightbox-close-btn:hover {
+  background: var(--acid);
+  color: var(--ink);
+  transform: scale(1.1);
+}
+
+.lightbox-img-wrap {
+  width: 100%;
+  max-height: calc(92vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #08090b;
+  overflow: hidden;
+}
+
+.lightbox-img-wrap img {
+  max-width: 100%;
+  max-height: calc(92vh - 80px);
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-caption {
+  padding: 18px 24px;
+  background: #13151b;
+  border-top: 1px solid var(--ink-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lightbox-caption strong {
+  font-family: var(--display-font);
+  font-size: 16px;
+  color: var(--paper);
+}
+
+.lightbox-caption span {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  color: var(--acid);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
