@@ -1,73 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
-    <!-- Background Gradient -->
+    <!-- Dark Tech Canvas Gradient -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#14161f"/>
-      <stop offset="50%" stop-color="#0a0b0f"/>
-      <stop offset="100%" stop-color="#040507"/>
+      <stop offset="0%" stop-color="#12141d"/>
+      <stop offset="50%" stop-color="#0a0c12"/>
+      <stop offset="100%" stop-color="#030407"/>
     </linearGradient>
 
-    <!-- Electric Cobalt to Neon Violet Gradient (Left Stem) -->
-    <linearGradient id="leftStem" x1="20%" y1="0%" x2="80%" y2="100%">
+    <!-- Electric Cobalt Stem Gradient -->
+    <linearGradient id="cobaltStem" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="28%" stop-color="#7388ff"/>
-      <stop offset="70%" stop-color="#4f63ff"/>
-      <stop offset="100%" stop-color="#3446d4"/>
+      <stop offset="22%" stop-color="#8fa3ff"/>
+      <stop offset="65%" stop-color="#4f63ff"/>
+      <stop offset="100%" stop-color="#2a3cc7"/>
     </linearGradient>
 
-    <!-- Acid Lime to Electric Cyan Gradient (Right Wing & Highlight) -->
-    <linearGradient id="rightWing" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#3b4fd8"/>
-      <stop offset="45%" stop-color="#6077ff"/>
-      <stop offset="85%" stop-color="#80e9ff"/>
+    <!-- Neon Acid Wing Gradient -->
+    <linearGradient id="acidWing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3249d6"/>
+      <stop offset="35%" stop-color="#4f63ff"/>
+      <stop offset="75%" stop-color="#6df5ff"/>
       <stop offset="100%" stop-color="#c7ff4a"/>
     </linearGradient>
 
-    <!-- Subtle Inner Bevel / Facet Shadow -->
+    <!-- Facet Shadow Overlay -->
     <linearGradient id="facetShadow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#000000" stop-opacity="0.55"/>
+      <stop offset="0%" stop-color="#000000" stop-opacity="0.6"/>
       <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Ambient Glow Filter -->
-    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-
-    <radialGradient id="ambientOrb" cx="50%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#4f63ff" stop-opacity="0.32"/>
-      <stop offset="60%" stop-color="#c7ff4a" stop-opacity="0.08"/>
+    <!-- Radial Ambient Core Glow -->
+    <radialGradient id="centerGlow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#4f63ff" stop-opacity="0.38"/>
+      <stop offset="60%" stop-color="#c7ff4a" stop-opacity="0.12"/>
       <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
   <!-- Squircle Base Frame -->
-  <rect width="128" height="128" rx="30" fill="url(#bgGrad)"/>
+  <rect width="128" height="128" rx="32" fill="url(#bgGrad)"/>
   
-  <!-- Ambient Inner Lighting -->
-  <rect width="128" height="128" rx="30" fill="url(#ambientOrb)"/>
+  <!-- Subtle Internal Glow Orb -->
+  <rect width="128" height="128" rx="32" fill="url(#centerGlow)"/>
   
-  <!-- Subtle Outer Rim Stroke -->
-  <rect x="1" y="1" width="126" height="126" rx="29" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5"/>
-  <rect x="2" y="2" width="124" height="124" rx="28" fill="none" stroke="rgba(79, 99, 255, 0.25)" stroke-width="1"/>
+  <!-- Sleek Border Ring with Dual Accent -->
+  <rect x="1.5" y="1.5" width="125" height="125" rx="30.5" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="1.5"/>
+  <rect x="3" y="3" width="122" height="122" rx="29" fill="none" stroke="rgba(199, 255, 74, 0.18)" stroke-width="1"/>
 
-  <!-- Iconic Monogram V Geometry -->
+  <!-- High-Precision Monogram V Geometry -->
   <g id="monogram-v">
-    <!-- Right Upward Slicing Wing (Drawn under left fold) -->
-    <path d="M 52 98 L 64 104 L 102 36 L 82 28 Z" fill="url(#rightWing)"/>
+    <!-- Right Ascending Wing (Cyan-to-Acid Blade) -->
+    <path d="M 52 98 L 65 104 L 102 34 L 81 26 Z" fill="url(#acidWing)"/>
 
-    <!-- Left Bold Chamfered Pillar -->
-    <path d="M 26 28 L 47 28 L 68 85 L 50 93 Z" fill="url(#leftStem)"/>
+    <!-- Left Pillar (Titanium-to-Cobalt Pillar) -->
+    <path d="M 26 26 L 48 26 L 68 85 L 49 93 Z" fill="url(#cobaltStem)"/>
 
-    <!-- Dynamic 3D Overlap Shadow at the Apex Intersection -->
-    <path d="M 50 78 L 66 84 L 54 99 L 46 86 Z" fill="url(#facetShadow)"/>
+    <!-- 3D Bevel Shadow at Joint Intersection -->
+    <path d="M 49 76 L 66 84 L 54 100 L 45 86 Z" fill="url(#facetShadow)"/>
 
-    <!-- High-Precision Chamfer Accent at Left Crown -->
-    <polygon points="26,28 36,28 29,46 22,38" fill="#ffffff" opacity="0.6"/>
+    <!-- Chamfered Prism Light on Left Top -->
+    <polygon points="26,26 38,26 30,44 22,36" fill="#ffffff" opacity="0.65"/>
 
-    <!-- Neon Acid Spark Dot at Apex Return -->
-    <circle cx="101" cy="27" r="3.5" fill="#c7ff4a"/>
-    <circle cx="101" cy="27" r="6" fill="#c7ff4a" opacity="0.35"/>
+    <!-- Neon Acid Signal Flare / Beacon -->
+    <circle cx="102" cy="26" r="3.5" fill="#c7ff4a"/>
+    <circle cx="102" cy="26" r="7" fill="#c7ff4a" opacity="0.4"/>
   </g>
 </svg>
