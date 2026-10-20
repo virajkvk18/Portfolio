@@ -56,7 +56,6 @@ Portfolio/
 │   ├── graphic-design.css       # Editorial styling, glassmorphism, responsive cards
 │   └── graphic-design.js        # Filter engine, lightbox modal, real-time typography lab
 │
-├── virajgraphicdesigner.html    # Clean URL redirect fallback
 ├── vercel.json                  # Production rewrite rules & cleanUrls configuration
 ├── _redirects                   # Netlify redirect rules
 └── assets/                      # Production-optimized thumbnails, logos & portraits

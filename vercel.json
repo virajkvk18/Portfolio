@@ -1,5 +1,12 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/virajgraphicdesigner/virajgraphicdesigner/:match*",
+      "destination": "/virajgraphicdesigner/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/virajgraphicdesigner",
