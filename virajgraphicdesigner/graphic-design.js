@@ -352,16 +352,46 @@ function initMobileNav() {
 
   if (!toggle || !drawer) return;
 
+  function closeDrawer() {
+    drawer.classList.remove("open");
+    toggle.textContent = "☰";
+    toggle.setAttribute("aria-expanded", "false");
+    document.body.classList.remove("menu-open");
+  }
+
+  function openDrawer() {
+    drawer.classList.add("open");
+    toggle.textContent = "✕";
+    toggle.setAttribute("aria-expanded", "true");
+    document.body.classList.add("menu-open");
+  }
+
   toggle.addEventListener("click", () => {
     const isOpen = drawer.classList.contains("open");
-    drawer.classList.toggle("open", !isOpen);
-    toggle.textContent = isOpen ? "☰" : "✕";
+    if (isOpen) {
+      closeDrawer();
+    } else {
+      openDrawer();
+    }
   });
 
   drawer.querySelectorAll("a").forEach(a => {
     a.addEventListener("click", () => {
-      drawer.classList.remove("open");
-      toggle.textContent = "☰";
+      closeDrawer();
     });
+  });
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.classList.contains("open")) {
+      closeDrawer();
+    }
+  });
+
+  // Auto-close on resize to desktop
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 880 && drawer.classList.contains("open")) {
+      closeDrawer();
+    }
   });
 }
