@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/virajgraphicdesigner",
+      "destination": "/virajgraphicdesigner/index.html"
+    },
+    {
+      "source": "/graphicdesignerportfolio",
+      "destination": "/virajgraphicdesigner/index.html"
+    }
+  ]
+}
